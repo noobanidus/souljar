@@ -1,0 +1,25 @@
+modLoader="javafml" 
+loaderVersion="[36,)"
+issueTrackerURL="https://github.com/noobanidus/souljar/issues"
+license="https://github.com/noobanidus/lootr/blob/1.16/LICENSE"
+[[mods]] 
+modId="souljar"
+version="${version}"
+displayName="souljar"
+displayURL="https://minecraft.curseforge.com/projects/soul-jar"
+authors="Noobanidus"
+description='''
+Store four mobs in a jar!
+'''
+[[dependencies.souljar]]
+    modId="forge" 
+    mandatory=true 
+    versionRange="[36,)"
+    ordering="NONE"
+    side="SERVER"
+[[dependencies.souljar]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,)"
+    ordering="NONE"
+    side="SERVER"
