@@ -1,0 +1,54 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "souljar:item/soul_jar_empty"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ -80, 260, -40 ],
+            "translation": [ -1, -2, 2.5 ],
+            "scale": [ 0.9, 0.9, 0.9 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ -80, -280, 40 ],
+            "translation": [ -1, -2, 2.5 ],
+            "scale": [ 0.9, 0.9, 0.9 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, -90, 25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, 90, -25 ],
+            "translation": [ 1.13, 3.2, 1.13],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "souls": 1
+            },
+            "model": "souljar:item/soul_jar_1"
+        },
+        {
+            "predicate": {
+                "souls": 2
+            },
+            "model": "souljar:item/soul_jar_2"
+        },       
+        {
+            "predicate": {
+                "souls": 3
+            },
+            "model": "souljar:item/soul_jar_3"
+        },       
+        {
+            "predicate": {
+                "souls": 4
+            },
+            "model": "souljar:item/soul_jar_4"
+        }
+    ]
+}

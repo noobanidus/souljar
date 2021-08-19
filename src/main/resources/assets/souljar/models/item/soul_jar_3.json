@@ -1,0 +1,7 @@
+{
+    "parent": "souljar:item/soul_jar",
+    "textures": {
+        "layer0": "souljar:item/soul_jar_empty",
+        "layer1": "souljar:item/soul_jar_layer_3"
+    }
+}

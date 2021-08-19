@@ -1,0 +1,32 @@
+{
+  "souljar.pickup": {
+    "sounds": [
+      {
+        "name": "souljar:pickup",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "souljar.subtitles.pickup"
+  },
+  "souljar.release": {
+    "sounds": [
+      {
+        "name": "souljar:release",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "souljar.subtitles.release"
+  },
+  "souljar.full": {
+    "sounds": [
+      {
+        "name": "souljar:full",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "souljar.subtitles.full"
+  }
+}
