@@ -16,10 +16,10 @@ Store four mobs in a jar!
     mandatory=true 
     versionRange="[36,)"
     ordering="NONE"
-    side="SERVER"
+    side="BOTH"
 [[dependencies.souljar]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.16.5,)"
     ordering="NONE"
-    side="SERVER"
+    side="BOTH"
