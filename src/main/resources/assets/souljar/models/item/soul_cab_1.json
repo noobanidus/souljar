@@ -1,0 +1,7 @@
+{
+  "parent": "souljar:item/soul_cab",
+  "textures": {
+    "layer0": "souljar:item/soul_cab_empty",
+    "layer1": "souljar:item/soul_cab_layer_1"
+  }
+}

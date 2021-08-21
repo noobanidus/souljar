@@ -28,27 +28,66 @@
     "overrides": [
         {
             "predicate": {
+                "cab": 0,
                 "souls": 1
             },
             "model": "souljar:item/soul_jar_1"
         },
         {
             "predicate": {
+                "cab": 0,
                 "souls": 2
             },
             "model": "souljar:item/soul_jar_2"
         },       
         {
             "predicate": {
+                "cab": 0,
                 "souls": 3
             },
             "model": "souljar:item/soul_jar_3"
         },       
         {
             "predicate": {
+                "cab": 0,
                 "souls": 4
             },
             "model": "souljar:item/soul_jar_4"
+        },
+        {
+            "predicate": {
+                "cab": 1,
+                "souls": 0
+            },
+            "model": "souljar:item/soul_cab"
+        },
+        {
+            "predicate": {
+                "cab": 1,
+                "souls": 1
+            },
+            "model": "souljar:item/soul_cab_1"
+        },
+        {
+            "predicate": {
+                "cab": 1,
+                "souls": 2
+            },
+            "model": "souljar:item/soul_cab_2"
+        },
+        {
+            "predicate": {
+                "cab": 1,
+                "souls": 3
+            },
+            "model": "souljar:item/soul_cab_3"
+        },
+        {
+            "predicate": {
+                "cab": 1,
+                "souls": 4
+            },
+            "model": "souljar:item/soul_cab_4"
         }
     ]
 }

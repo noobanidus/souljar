@@ -41,6 +41,7 @@ public class ClientSetup {
           return -1;
         }
       }, ModItems.SOUL_JAR.get());
+      ItemModelsProperties.registerProperty(ModItems.SOUL_JAR.get(), new ResourceLocation("cab"), (stack, world, entity) -> SoulJarItem.isCab(stack) ? 1 : 0);
     });
   }
 }

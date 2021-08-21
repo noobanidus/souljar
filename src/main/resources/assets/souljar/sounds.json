@@ -28,5 +28,35 @@
       }
     ],
     "subtitle": "souljar.subtitles.full"
+  },
+  "soulcab.pickup": {
+    "sounds": [
+      {
+        "name": "souljar:cab_pickup",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "soulcab.subtitles.pickup"
+  },
+  "soulcab.release": {
+    "sounds": [
+      {
+        "name": "souljar:cab_release",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "soulcab.subtitles.release"
+  },
+  "soulcab.full": {
+    "sounds": [
+      {
+        "name": "souljar:cab_full",
+        "volume": 1,
+        "pitch": 1
+      }
+    ],
+    "subtitle": "soulcab.subtitles.full"
   }
 }

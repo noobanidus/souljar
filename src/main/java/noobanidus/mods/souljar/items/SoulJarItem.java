@@ -26,6 +26,7 @@ import noobanidus.mods.souljar.init.ModSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class SoulJarItem extends Item {
@@ -50,13 +51,14 @@ public class SoulJarItem extends Item {
     }
 
     stack = playerIn.getHeldItem(hand);
+    boolean cab = isCab(stack);
 
     BlockPos pos = target.getPosition();
 
     if (!(target instanceof PlayerEntity)) {
       ListNBT entityList = getEntityList(stack);
       if (entityList.size() == 4) {
-        playerIn.world.playSound(null, pos, ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
         return ActionResultType.FAIL;
       }
 
@@ -68,11 +70,11 @@ public class SoulJarItem extends Item {
       target.remove();
       saveEntityList(stack, entityList);
 
-      playerIn.world.playSound(null, pos, ModSounds.PICKUP.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_PICKUP.get() : ModSounds.PICKUP.get(), SoundCategory.PLAYERS, 0.25f, 1f);
 
       return ActionResultType.SUCCESS;
     } else {
-      playerIn.world.playSound(null, pos, ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
       return ActionResultType.FAIL;
     }
   }
@@ -88,9 +90,10 @@ public class SoulJarItem extends Item {
         return ActionResultType.FAIL;
       }
       ItemStack stack = player.getHeldItem(context.getHand());
+      boolean cab = isCab(stack);
       ListNBT entityList = getEntityList(stack);
       if (entityList.isEmpty()) {
-        world.playSound(null, position, ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        world.playSound(null, position, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
         return ActionResultType.FAIL;
       }
 
@@ -102,7 +105,7 @@ public class SoulJarItem extends Item {
       if (result != null) {
         result.setPosition(position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
         world.addEntity(result);
-        world.playSound(null, position, ModSounds.RELEASE.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        world.playSound(null, position, cab ? ModSounds.CAB_RELEASE.get() : ModSounds.RELEASE.get(), SoundCategory.PLAYERS, 0.25f, 1f);
         return ActionResultType.SUCCESS;
       }
     }
@@ -140,6 +143,14 @@ public class SoulJarItem extends Item {
   public static void saveEntityList (ItemStack stack, ListNBT list) {
     CompoundNBT tag = stack.getOrCreateTag();
     tag.put(Identifiers.ENTITIES, list);
+  }
+
+  public static boolean isCab (ItemStack stack) {
+    if (stack.hasDisplayName()) {
+      String name = stack.getDisplayName().getString().toLowerCase(Locale.ROOT);
+      return name.contains("cab");
+    }
+    return false;
   }
 
   private static class Identifiers {

@@ -1,7 +1,13 @@
 {
   "item.souljar.soul_jar": "Soul Jar",
   "itemGroup.souljar": "Soul Jar",
+  "soulcab.subtitles.full": "Cab is full",
+  "soulcab.subtitles.pickup": "Picked up a passenger",
+  "soulcab.subtitles.release": "Dropped off a passenger",
   "souljar.listing": "Entity %s: %s",
+  "souljar.subtitles.full": "Jar is full",
+  "souljar.subtitles.pickup": "Jarred a creature",
+  "souljar.subtitles.release": "Unjarred a creature",
   "souljar.tooltip1": "Right-Click entity to store it in the jar.",
   "souljar.tooltip2": "Right-Click a block to release the most recently stored entity."
 }
