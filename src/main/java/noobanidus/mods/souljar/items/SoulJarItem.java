@@ -5,7 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -22,12 +21,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+import noobanidus.mods.souljar.config.ConfigManager;
 import noobanidus.mods.souljar.init.ModSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class SoulJarItem extends Item {
   public SoulJarItem(Properties properties) {
@@ -58,7 +57,12 @@ public class SoulJarItem extends Item {
     if (!(target instanceof PlayerEntity)) {
       ListNBT entityList = getEntityList(stack);
       if (entityList.size() == 4) {
-        playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+        return ActionResultType.FAIL;
+      }
+
+      if (!ConfigManager.canPickup(target)) {
+        playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
         return ActionResultType.FAIL;
       }
 
@@ -70,11 +74,11 @@ public class SoulJarItem extends Item {
       target.remove();
       saveEntityList(stack, entityList);
 
-      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_PICKUP.get() : ModSounds.PICKUP.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_PICKUP.get() : ModSounds.PICKUP.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
 
       return ActionResultType.SUCCESS;
     } else {
-      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+      playerIn.world.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
       return ActionResultType.FAIL;
     }
   }
@@ -93,7 +97,7 @@ public class SoulJarItem extends Item {
       boolean cab = isCab(stack);
       ListNBT entityList = getEntityList(stack);
       if (entityList.isEmpty()) {
-        world.playSound(null, position, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        world.playSound(null, position, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
         return ActionResultType.FAIL;
       }
 
@@ -105,7 +109,7 @@ public class SoulJarItem extends Item {
       if (result != null) {
         result.setPosition(position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
         world.addEntity(result);
-        world.playSound(null, position, cab ? ModSounds.CAB_RELEASE.get() : ModSounds.RELEASE.get(), SoundCategory.PLAYERS, 0.25f, 1f);
+        world.playSound(null, position, cab ? ModSounds.CAB_RELEASE.get() : ModSounds.RELEASE.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
         return ActionResultType.SUCCESS;
       }
     }
@@ -129,7 +133,7 @@ public class SoulJarItem extends Item {
     }
   }
 
-  public static ListNBT getEntityList (ItemStack stack) {
+  public static ListNBT getEntityList(ItemStack stack) {
     CompoundNBT tag = stack.getOrCreateTag();
     if (tag.contains(Identifiers.ENTITIES, Constants.NBT.TAG_LIST)) {
       return tag.getList(Identifiers.ENTITIES, Constants.NBT.TAG_COMPOUND);
@@ -140,12 +144,12 @@ public class SoulJarItem extends Item {
     }
   }
 
-  public static void saveEntityList (ItemStack stack, ListNBT list) {
+  public static void saveEntityList(ItemStack stack, ListNBT list) {
     CompoundNBT tag = stack.getOrCreateTag();
     tag.put(Identifiers.ENTITIES, list);
   }
 
-  public static boolean isCab (ItemStack stack) {
+  public static boolean isCab(ItemStack stack) {
     if (stack.hasDisplayName()) {
       String name = stack.getDisplayName().getString().toLowerCase(Locale.ROOT);
       return name.contains("cab");
