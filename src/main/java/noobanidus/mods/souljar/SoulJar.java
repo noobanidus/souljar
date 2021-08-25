@@ -4,6 +4,7 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import mezz.jei.config.JEIClientConfig;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;

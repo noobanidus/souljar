@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "GSG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass"
+    },
+    "H": {
+      "tag": "forge:heads"
+    },
+    "S": {
+      "tag": "minecraft:soul_fire_base_blocks"
+    }
+  },
+  "result": {
+    "item": "souljar:soul_jar"
+  }
+}
