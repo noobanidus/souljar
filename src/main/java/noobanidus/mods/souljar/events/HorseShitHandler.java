@@ -20,19 +20,19 @@ public class HorseShitHandler {
 
   @SubscribeEvent
   public static void onRightClick(PlayerInteractEvent.EntityInteract event) {
-    if (event.getTarget().getEntityWorld().isRemote) {
+    if (event.getTarget().getCommandSenderWorld().isClientSide) {
       return;
     }
 
     ItemStack stack;
     Hand hand;
 
-    if (ModItems.SOUL_JAR.get().equals(event.getPlayer().getHeldItemMainhand().getItem())) {
+    if (ModItems.SOUL_JAR.get().equals(event.getPlayer().getMainHandItem().getItem())) {
       hand = Hand.MAIN_HAND;
-      stack = event.getPlayer().getHeldItemMainhand();
-    } else if (ModItems.SOUL_JAR.get().equals(event.getPlayer().getHeldItemOffhand().getItem())) {
+      stack = event.getPlayer().getMainHandItem();
+    } else if (ModItems.SOUL_JAR.get().equals(event.getPlayer().getOffhandItem().getItem())) {
       hand = Hand.OFF_HAND;
-      stack = event.getPlayer().getHeldItemOffhand();
+      stack = event.getPlayer().getOffhandItem();
     } else {
       return;
     }
@@ -41,7 +41,7 @@ public class HorseShitHandler {
       return;
     }
 
-    ActionResultType result = ModItems.SOUL_JAR.get().itemInteractionForEntity(stack, event.getPlayer(), (LivingEntity) event.getTarget(), hand);
+    ActionResultType result = ModItems.SOUL_JAR.get().interactLivingEntity(stack, event.getPlayer(), (LivingEntity) event.getTarget(), hand);
     event.setCanceled(true);
     event.setCancellationResult(result);
   }

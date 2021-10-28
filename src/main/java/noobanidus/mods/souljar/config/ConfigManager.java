@@ -102,7 +102,7 @@ public class ConfigManager {
   }
 
   public static boolean canPickup(Entity entity) {
-    if (!entity.isNonBoss() && disable_bosses.get()) {
+    if (!entity.canChangeDimensions() && disable_bosses.get()) {
       return false;
     }
 

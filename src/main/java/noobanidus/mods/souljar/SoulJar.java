@@ -28,7 +28,7 @@ public class SoulJar {
 
   public static final ItemGroup ITEM_GROUP = new ItemGroup("souljar") {
     @Override
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
       return new ItemStack(ModItems.SOUL_JAR.get());
     }
   };

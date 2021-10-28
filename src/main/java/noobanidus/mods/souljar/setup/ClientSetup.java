@@ -19,7 +19,7 @@ public class ClientSetup {
   @SubscribeEvent
   public static void clientSetup(FMLClientSetupEvent event) {
     event.enqueueWork(() -> {
-      ItemModelsProperties.registerProperty(ModItems.SOUL_JAR.get(), new ResourceLocation("souls"), (stack, world, entity) -> SoulJarItem.getEntityList(stack).size());
+      ItemModelsProperties.register(ModItems.SOUL_JAR.get(), new ResourceLocation("souls"), (stack, world, entity) -> SoulJarItem.getEntityList(stack).size());
       Minecraft.getInstance().getItemColors().register(new IItemColor() {
         @Override
         public int getColor(ItemStack p_getColor_1_, int p_getColor_2_) {
@@ -41,7 +41,7 @@ public class ClientSetup {
           return -1;
         }
       }, ModItems.SOUL_JAR.get());
-      ItemModelsProperties.registerProperty(ModItems.SOUL_JAR.get(), new ResourceLocation("cab"), (stack, world, entity) -> SoulJarItem.isCab(stack) ? 1 : 0);
+      ItemModelsProperties.register(ModItems.SOUL_JAR.get(), new ResourceLocation("cab"), (stack, world, entity) -> SoulJarItem.isCab(stack) ? 1 : 0);
     });
   }
 }
