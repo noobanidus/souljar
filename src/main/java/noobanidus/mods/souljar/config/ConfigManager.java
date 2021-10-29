@@ -26,9 +26,11 @@ public class ConfigManager {
   private final static ForgeConfigSpec.ConfigValue<List<? extends String>> mod_mob_blacklist;
   private final static ForgeConfigSpec.DoubleValue health_maximum;
   private final static ForgeConfigSpec.BooleanValue disable_bosses;
+  private final static ForgeConfigSpec.ConfigValue<List<? extends String>> mob_bypass_list;
 
   private static Set<EntityType<?>> mobBlacklist = null;
   private static Set<EntityType<?>> mobWhitelist = null;
+  private static Set<EntityType<?>> mobBypassList = null;
   private static Set<String> modBlacklist = null;
   private static Set<String> modWhitelist = null;
 
@@ -76,6 +78,21 @@ public class ConfigManager {
     return mobWhitelist;
   }
 
+  public static Set<EntityType<?>> getMobBypassList () {
+    if (mobBypassList == null) {
+      mobBypassList = new HashSet<>();
+      for (String s : mob_bypass_list.get()) {
+        EntityType<?> e = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(s));
+        if (e == null) {
+          SoulJar.LOG.error("Invalid entry for bypass list: " + s);
+        } else {
+          mobBypassList.add(e);
+        }
+      }
+    }
+    return mobBypassList;
+  }
+
   public static Set<String> getModWhitelist() {
     if (modWhitelist == null) {
       modWhitelist = new HashSet<>(mod_mob_whitelist.get());
@@ -98,6 +115,7 @@ public class ConfigManager {
     mod_mob_whitelist = COMMON_BUILDER.comment("list of mod names to whitelist (specifying an empty whitelist allows any mob; specifying any mod only allows those mods)").defineList("mod_whitelist", Collections.emptyList(), o -> o instanceof String);
     health_maximum = COMMON_BUILDER.comment("entities with this many hearts or more are blocked from being picked up by the soul jar (-1.0 to disable)").defineInRange("health_maximum", -1.0, -1.0, Double.MAX_VALUE);
     disable_bosses = COMMON_BUILDER.comment("whether or not 'boss' entities should be allowed to be picked up").define("disable_boss_entities", true);
+    mob_bypass_list = COMMON_BUILDER.comment("list of entities that need to use an event for interaction; add an entity type to this list if they aren't picked up by the soul jar").defineList("mob_bypass_list", Arrays.asList("minecraft:horse", "minecraft:donkey", "minecraft:mule", "minecraft:zombie_horse", "minecraft:skeleton_horse", "minecraft:villager", "minecraft:llama", "minecraft:trader_llama", "minecraft:wandering_trader", "minecraft:pig", "minecraft:strider"), o -> o instanceof String && ((String) o).contains(":"));
     COMMON_CONFIG = COMMON_BUILDER.build();
   }
 

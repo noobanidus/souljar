@@ -10,14 +10,13 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import noobanidus.mods.souljar.SoulJar;
+import noobanidus.mods.souljar.config.ConfigManager;
 import noobanidus.mods.souljar.init.ModItems;
 
 import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = SoulJar.MODID)
 public class HorseShitHandler {
-  private static final Set<EntityType<?>> HORSES = Sets.newHashSet(EntityType.HORSE, EntityType.DONKEY, EntityType.MULE, EntityType.ZOMBIE_HORSE, EntityType.SKELETON_HORSE, EntityType.VILLAGER, EntityType.LLAMA, EntityType.TRADER_LLAMA, EntityType.WANDERING_TRADER, EntityType.PIG, EntityType.STRIDER);
-
   @SubscribeEvent
   public static void onRightClick(PlayerInteractEvent.EntityInteract event) {
     if (event.getTarget().getCommandSenderWorld().isClientSide) {
@@ -37,7 +36,7 @@ public class HorseShitHandler {
       return;
     }
 
-    if (!HORSES.contains(event.getTarget().getType())) {
+    if (!ConfigManager.getMobBypassList().contains(event.getTarget().getType())) {
       return;
     }
 
