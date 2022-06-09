@@ -2,10 +2,10 @@ package noobanidus.mods.souljar.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
@@ -102,7 +102,7 @@ public class ConfigManager {
   }
 
   public static boolean canPickup(Entity entity) {
-    if (!entity.isNonBoss() && disable_bosses.get()) {
+    if (!entity.canChangeDimensions() && disable_bosses.get()) {
       return false;
     }
 

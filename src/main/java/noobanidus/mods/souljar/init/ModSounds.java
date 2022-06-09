@@ -1,7 +1,7 @@
 package noobanidus.mods.souljar.init;
 
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 
 import static noobanidus.mods.souljar.SoulJar.REGISTRATE;
 

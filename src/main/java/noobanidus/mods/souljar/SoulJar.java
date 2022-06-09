@@ -2,8 +2,8 @@ package noobanidus.mods.souljar;
 
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import mezz.jei.config.JEIClientConfig;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -19,6 +19,8 @@ import noobanidus.mods.souljar.init.ModSounds;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import CreativeModeTab;
+
 @Mod("souljar")
 public class SoulJar {
   public static final Logger LOG = LogManager.getLogger();
@@ -26,9 +28,9 @@ public class SoulJar {
 
   public static CustomRegistrate REGISTRATE;
 
-  public static final ItemGroup ITEM_GROUP = new ItemGroup("souljar") {
+  public static final CreativeModeTab ITEM_GROUP = new CreativeModeTab("souljar") {
     @Override
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
       return new ItemStack(ModItems.SOUL_JAR.get());
     }
   };

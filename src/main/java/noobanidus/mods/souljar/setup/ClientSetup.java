@@ -3,7 +3,7 @@ package noobanidus.mods.souljar.setup;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.IItemColor;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemModelsProperties;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,7 +19,7 @@ public class ClientSetup {
   @SubscribeEvent
   public static void clientSetup(FMLClientSetupEvent event) {
     event.enqueueWork(() -> {
-      ItemModelsProperties.registerProperty(ModItems.SOUL_JAR.get(), new ResourceLocation("souls"), (stack, world, entity) -> SoulJarItem.getEntityList(stack).size());
+      ItemProperties.register(ModItems.SOUL_JAR.get(), new ResourceLocation("souls"), (stack, world, entity) -> SoulJarItem.getEntityList(stack).size());
       Minecraft.getInstance().getItemColors().register(new IItemColor() {
         @Override
         public int getColor(ItemStack p_getColor_1_, int p_getColor_2_) {
@@ -41,7 +41,7 @@ public class ClientSetup {
           return -1;
         }
       }, ModItems.SOUL_JAR.get());
-      ItemModelsProperties.registerProperty(ModItems.SOUL_JAR.get(), new ResourceLocation("cab"), (stack, world, entity) -> SoulJarItem.isCab(stack) ? 1 : 0);
+      ItemModelsProperties.register(ModItems.SOUL_JAR.get(), new ResourceLocation("cab"), (stack, world, entity) -> SoulJarItem.isCab(stack) ? 1 : 0);
     });
   }
 }
