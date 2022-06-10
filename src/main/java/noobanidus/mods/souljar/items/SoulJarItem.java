@@ -1,34 +1,35 @@
 package noobanidus.mods.souljar.items;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.text.*;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
 import noobanidus.mods.souljar.config.ConfigManager;
 import noobanidus.mods.souljar.init.ModSounds;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
-
-import net.minecraft.world.item.Item.Properties;
 
 public class SoulJarItem extends Item {
   public SoulJarItem(Properties properties) {
@@ -48,7 +49,7 @@ public class SoulJarItem extends Item {
   @Override
   public InteractionResult interactLivingEntity(ItemStack stack, Player playerIn, LivingEntity target, InteractionHand hand) {
     if (playerIn.level.isClientSide) {
-      return ActionResultType.CONSUME;
+      return InteractionResult.SUCCESS;
     }
 
     stack = playerIn.getItemInHand(hand);
@@ -56,63 +57,63 @@ public class SoulJarItem extends Item {
 
     BlockPos pos = target.blockPosition();
 
-    if (!(target instanceof PlayerEntity)) {
-      ListNBT entityList = getEntityList(stack);
+    if (!(target instanceof Player)) {
+      ListTag entityList = getEntityList(stack);
       if (entityList.size() == 4) {
-        playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
-        return ActionResultType.FAIL;
+        playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+        return InteractionResult.FAIL;
       }
 
       if (!ConfigManager.canPickup(target)) {
-        playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
-        return ActionResultType.FAIL;
+        playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+        return InteractionResult.FAIL;
       }
 
       target.stopRiding();
       target.ejectPassengers();
-      CompoundNBT entity = new CompoundNBT();
+      CompoundTag entity = new CompoundTag();
       target.save(entity);
       entityList.add(entity);
-      target.remove();
+      target.remove(Entity.RemovalReason.UNLOADED_TO_CHUNK);
       saveEntityList(stack, entityList);
 
-      playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_PICKUP.get() : ModSounds.PICKUP.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+      playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_PICKUP.get() : ModSounds.PICKUP.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
 
-      return ActionResultType.SUCCESS;
+      return InteractionResult.SUCCESS;
     } else {
-      playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
-      return ActionResultType.FAIL;
+      playerIn.level.playSound(null, pos, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+      return InteractionResult.FAIL;
     }
   }
 
   @Override
-  public ActionResultType useOn(ItemUseContext context) {
-    World world = context.getLevel();
+  public InteractionResult useOn(UseOnContext context) {
+    Level world = context.getLevel();
     if (!world.isClientSide) {
-      PlayerEntity player = context.getPlayer();
+      Player player = context.getPlayer();
       BlockPos position = context.getClickedPos().relative(context.getClickedFace());
       if (player == null) {
-        world.playSound(null, position, ModSounds.FULL.get(), SoundCategory.PLAYERS, 0.25f, 1f);
-        return ActionResultType.FAIL;
+        world.playSound(null, position, ModSounds.FULL.get(), SoundSource.PLAYERS, 0.25f, 1f);
+        return InteractionResult.FAIL;
       }
       ItemStack stack = player.getItemInHand(context.getHand());
       boolean cab = isCab(stack);
-      ListNBT entityList = getEntityList(stack);
+      ListTag entityList = getEntityList(stack);
       if (entityList.isEmpty()) {
-        world.playSound(null, position, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
-        return ActionResultType.FAIL;
+        world.playSound(null, position, cab ? ModSounds.CAB_FULL.get() : ModSounds.FULL.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+        return InteractionResult.FAIL;
       }
 
       int index = entityList.size() - 1;
-      CompoundNBT data = entityList.getCompound(index);
+      CompoundTag data = entityList.getCompound(index);
       entityList.remove(index);
       saveEntityList(stack, entityList);
       Entity result = EntityType.loadEntityRecursive(data, world, o -> o);
       if (result != null) {
         result.setPos(position.getX() + 0.5, position.getY(), position.getZ() + 0.5);
         world.addFreshEntity(result);
-        world.playSound(null, position, cab ? ModSounds.CAB_RELEASE.get() : ModSounds.RELEASE.get(), SoundCategory.PLAYERS, cab ? 0.8f : 0.3f, 1f);
-        return ActionResultType.SUCCESS;
+        world.playSound(null, position, cab ? ModSounds.CAB_RELEASE.get() : ModSounds.RELEASE.get(), SoundSource.PLAYERS, cab ? 0.8f : 0.3f, 1f);
+        return InteractionResult.SUCCESS;
       }
     }
     return super.useOn(context);
@@ -120,34 +121,34 @@ public class SoulJarItem extends Item {
 
   @Override
   @OnlyIn(Dist.CLIENT)
-  public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+  public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
     super.appendHoverText(stack, worldIn, tooltip, flagIn);
-    tooltip.add(new StringTextComponent(""));
-    tooltip.add(new TranslationTextComponent("souljar.tooltip1").setStyle(Style.EMPTY.applyFormat(TextFormatting.LIGHT_PURPLE)));
-    tooltip.add(new TranslationTextComponent("souljar.tooltip2").setStyle(Style.EMPTY.applyFormat(TextFormatting.LIGHT_PURPLE)));
-    ListNBT list = getEntityList(stack);
+    tooltip.add(new TextComponent(""));
+    tooltip.add(new TranslatableComponent("souljar.tooltip1").setStyle(Style.EMPTY.applyFormat(ChatFormatting.LIGHT_PURPLE)));
+    tooltip.add(new TranslatableComponent("souljar.tooltip2").setStyle(Style.EMPTY.applyFormat(ChatFormatting.LIGHT_PURPLE)));
+    ListTag  list = getEntityList(stack);
     if (!list.isEmpty()) {
-      tooltip.add(new StringTextComponent(""));
+      tooltip.add(new TextComponent(""));
       int i = 1;
-      for (INBT item : list) {
-        tooltip.add(new TranslationTextComponent("souljar.listing", i++, EntityType.by((CompoundNBT) item).map(EntityType::getDescription).orElse(new StringTextComponent("Unknown"))));
+      for (Tag item : list) {
+        tooltip.add(new TranslatableComponent("souljar.listing", i++, EntityType.by((CompoundTag) item).map(EntityType::getDescription).orElse(new TextComponent("Unknown"))));
       }
     }
   }
 
-  public static ListNBT getEntityList(ItemStack stack) {
-    CompoundNBT tag = stack.getOrCreateTag();
-    if (tag.contains(Identifiers.ENTITIES, Constants.NBT.TAG_LIST)) {
-      return tag.getList(Identifiers.ENTITIES, Constants.NBT.TAG_COMPOUND);
+  public static ListTag getEntityList(ItemStack stack) {
+    CompoundTag tag = stack.getOrCreateTag();
+    if (tag.contains(Identifiers.ENTITIES, Tag.TAG_LIST)) {
+      return tag.getList(Identifiers.ENTITIES, Tag.TAG_COMPOUND);
     } else {
-      ListNBT result = new ListNBT();
+      ListTag result = new ListTag();
       tag.put(Identifiers.ENTITIES, result);
       return result;
     }
   }
 
-  public static void saveEntityList(ItemStack stack, ListNBT list) {
-    CompoundNBT tag = stack.getOrCreateTag();
+  public static void saveEntityList(ItemStack stack, ListTag list) {
+    CompoundTag tag = stack.getOrCreateTag();
     tag.put(Identifiers.ENTITIES, list);
   }
 

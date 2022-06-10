@@ -4,11 +4,12 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import noobanidus.mods.souljar.SoulJar;
 
@@ -39,7 +40,7 @@ public class ConfigManager {
   }
 
   @SubscribeEvent
-  public static void configReloaded(ModConfig.ModConfigEvent event) {
+  public static void configReloaded(ModConfigEvent event) {
     mobBlacklist = null;
     mobWhitelist = null;
     modBlacklist = null;

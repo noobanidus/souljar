@@ -3,11 +3,11 @@ package noobanidus.mods.souljar.init;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import net.minecraft.data.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
 import noobanidus.mods.souljar.SoulJar;
 import noobanidus.mods.souljar.items.SoulJarItem;
@@ -28,7 +28,7 @@ public class ModItems {
             .define('G', Tags.Items.GLASS)
             .define('H', Tags.Items.HEADS)
             .define('S', ItemTags.SOUL_FIRE_BASE_BLOCKS)
-            .unlockedBy("has_head", RegistrateRecipeProvider.hasItem(Tags.Items.HEADS))
+            .unlockedBy("has_head", RegistrateRecipeProvider.has(Tags.Items.HEADS))
             .save(p, new ResourceLocation(SoulJar.MODID, "soul_jar"));
       })
       .register();
